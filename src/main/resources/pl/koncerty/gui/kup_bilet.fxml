@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.koncerty.gui.UzytkownikController"
@@ -13,21 +14,28 @@
 
 
     <children>
-        <Label layoutX="30" layoutY="20" text="Imię:"/>
-        <TextField fx:id="imieField" layoutX="130" layoutY="15"/>
 
-        <Label layoutX="30" layoutY="60" text="Nazwisko:"/>
-        <TextField fx:id="nazwiskoField" layoutX="130" layoutY="55"/>
+        <TableView fx:id="koncertTableView" prefHeight="394.0" prefWidth="399.0">
+            <columns>
+                <TableColumn fx:id="wykonawcaCol" prefWidth="106.4000244140625" text="Wykonawca" />
+                <TableColumn fx:id="dataCol" prefWidth="85.5999755859375" text="Data" />
+                <TableColumn fx:id="miejsceCol" prefWidth="100.800048828125" text="Miejsce" />
+                <TableColumn fx:id="cenaCol" prefWidth="102.4000244140625" text="Cena" />
+            </columns>
+        </TableView>
+        <VBox alignment="CENTER" layoutX="427.0" layoutY="21.0" prefHeight="350.0" prefWidth="155.0" spacing="35.0" style="-fx-background-color: black;">
+            <children>
+                <TextField fx:id="wykonawcaField" />
+                <DatePicker fx:id="dataPicker" />
+                <TextField fx:id="miejsceField" />
+                <TextField fx:id="cenaField" />
 
-        <Label layoutX="30" layoutY="100" text="E-mail:"/>
-        <TextField fx:id="emailField" layoutX="130" layoutY="95"/>
+                <Button fx:id="kupBtn" text="Kup Bilet" onAction="#buyTicket"/>
 
-        <Label layoutX="30" layoutY="140" text="Login:"/>
-        <TextField fx:id="loginField" layoutX="130" layoutY="135"/>
-
-        <Label layoutX="30" layoutY="180" text="Hasło:"/>
-        <PasswordField fx:id="hasloField" layoutX="130" layoutY="175"/>
-
-        <Button layoutX="130" layoutY="220" text="Zarejestruj" onAction="#zarejestrujUzytkownika"/>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
     </children>
 </AnchorPane>
