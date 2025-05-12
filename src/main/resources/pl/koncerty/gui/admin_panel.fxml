@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.koncerty.gui.AdminController" >
+
+
+    <children>
+        <Label layoutX="30" layoutY="20" text="Wykonawca:" />
+        <TextField fx:id="wykonawcaField" layoutX="150" layoutY="15" />
+
+        <Label layoutX="30" layoutY="60" text="Data:" />
+        <DatePicker fx:id="dataPicker" layoutX="150" layoutY="55" promptText="YYYY-MM-DD" />
+
+        <Label layoutX="30" layoutY="100" text="Miejsce:" />
+        <TextField fx:id="miejsceField" layoutX="150" layoutY="95" />
+
+        <Label layoutX="30" layoutY="140" text="Cena biletu:" />
+        <TextField fx:id="cenaField" layoutX="150" layoutY="135" />
+
+        <Button layoutX="161.0" layoutY="181.0" onAction="#dodajKoncert" text="Dodaj koncert" />
+        <Button fx:id="zarzadzajBtn" layoutX="142.0" layoutY="233.0" text="Zarządzaj koncertami" onAction="#przejdzDoZarzadzania"/>
+
+        <Label text="Wyloguj się" onMouseClicked="#wyloguj" style="-fx-text-fill: blue; -fx-underline: true;" layoutX="520" layoutY="10" />
+
+        <Label fx:id="statusLabel" layoutX="30" layoutY="280" textFill="green" />
+    </children>
+</AnchorPane>

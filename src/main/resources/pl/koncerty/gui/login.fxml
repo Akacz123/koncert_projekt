@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pl.koncerty.gui.LoginController"
+            prefWidth="300" prefHeight="220">
+
+    <children>
+        <Label layoutX="30" layoutY="30" text="Login:"/>
+        <TextField fx:id="loginField" layoutX="100" layoutY="25"/>
+
+        <Label layoutX="30" layoutY="70" text="Hasło:"/>
+        <PasswordField fx:id="hasloField" layoutX="100" layoutY="65"/>
+
+        <Button layoutX="100" layoutY="110" text="Zaloguj" onAction="#zaloguj"/>
+
+        <Button layoutX="100" layoutY="150" text="Zarejestruj się" onAction="#przejdzDoRejestracji"/>
+    </children>
+</AnchorPane>
