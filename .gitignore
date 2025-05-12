@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-!**hibernate.cfg.xml
+hibernate.cfg.xml
