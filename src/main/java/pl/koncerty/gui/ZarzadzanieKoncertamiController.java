@@ -31,9 +31,6 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
     private ObservableList<Koncert> koncertList = FXCollections.observableArrayList();
 
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         wykonawcaCol.setCellValueFactory(new PropertyValueFactory<>("wykonawca"));

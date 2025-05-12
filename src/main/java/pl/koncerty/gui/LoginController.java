@@ -12,6 +12,8 @@ import pl.koncerty.HibernateUtil;
 import pl.koncerty.model.Uzytkownik;
 import org.hibernate.query.Query;
 
+import javax.persistence.NoResultException;
+
 public class LoginController {
 
     @FXML
@@ -44,6 +46,7 @@ public class LoginController {
                     "FROM Uzytkownik WHERE login = :login AND haslo = :haslo", Uzytkownik.class);
             query.setParameter("login", login);
             query.setParameter("haslo", haslo);
+
             Uzytkownik uzytkownik = query.getSingleResult();
 
             if (uzytkownik != null) {

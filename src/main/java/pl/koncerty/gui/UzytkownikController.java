@@ -1,16 +1,26 @@
 package pl.koncerty.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import pl.koncerty.HibernateUtil;
+import pl.koncerty.model.Koncert;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class UzytkownikController {
+public class UzytkownikController{
+
+
     @FXML private TextField wykonawcaField, miejsceField, cenaField;
     @FXML private DatePicker dataPicker;
     @FXML private Label statusLabel;
@@ -31,7 +41,6 @@ public class UzytkownikController {
             e.printStackTrace();
         }
     }
-
     @FXML
     private void buyTicket(){
         try {
