@@ -12,26 +12,21 @@ import java.io.IOException;
 public class UzytkownikController extends SceneUtil{
 
 
-    @FXML private TextField wykonawcaField, miejsceField, cenaField;
-    @FXML private DatePicker dataPicker;
-    @FXML private Label statusLabel;
+    @FXML private TextField cenaField;
 
     @FXML
     private void buyTicket(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/koncerty/gui/kup_bilet.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Kupno biletu");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        otworzPanel("/pl/koncerty/gui/kup_bilet.fxml", "Kupno Biletu", cenaField);
     }
 
     @FXML
     private void showTicket(){
 
     }
+
+    @FXML
+    private void wyloguj() {
+        otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+    }
+
 }

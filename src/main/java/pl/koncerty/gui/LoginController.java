@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 
 public class LoginController extends SceneUtil {
 
+    @FXML private TextField cenaField;
     @FXML
     private TextField loginField;
 
@@ -39,7 +40,11 @@ public class LoginController extends SceneUtil {
 
         try {
             if (login.equals("admin") && haslo.equals("admin")) {
-                otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel administratora");
+                otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel administratora", cenaField);
+
+                Stage currentStage = (Stage) loginField.getScene().getWindow();
+                currentStage.close();
+
                 return;
             }
 
@@ -52,7 +57,7 @@ public class LoginController extends SceneUtil {
                 Uzytkownik uzytkownik = query.getSingleResult();
 
                 if (uzytkownik != null) {
-                    otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika");
+                    otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", cenaField);
 
                     Stage currentStage = (Stage) loginField.getScene().getWindow();
                     currentStage.close();
@@ -71,15 +76,6 @@ public class LoginController extends SceneUtil {
 
     @FXML
     private void przejdzDoRejestracji() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/koncerty/gui/rejestracja.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Rejestracja użytkownika");
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        otworzPanel("/pl/koncerty/gui/rejestracja.fxml", "Rejestracja", cenaField);
     }
 }

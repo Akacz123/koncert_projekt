@@ -80,27 +80,10 @@ public class ZarzadzanieKoncertamiController implements Initializable {
     }
     @FXML
     private void powrotDoAdminPanelu() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/koncerty/gui/admin_panel.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Panel administratora");
-            stage.setScene(scene);
-            stage.show();
-
-            Stage obecneOkno = (Stage) koncertTableView.getScene().getWindow();
-            obecneOkno.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SceneUtil.otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel Administracyjny", cenaField);
     }
     @FXML
     private void wyloguj() {
-        try{
-            SceneUtil.wyloguj("pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
 }

@@ -15,12 +15,10 @@ import pl.koncerty.util.SceneUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class AdminController extends SceneUtil {
+public class AdminController extends SceneUtil{
 
-    @FXML private Button zarzadzajBtn;
     @FXML private TextField wykonawcaField, miejsceField, cenaField;
     @FXML private DatePicker dataPicker;
-    @FXML private Label statusLabel;
 
     private void pokazAlert(Alert.AlertType typ, String tresc) {
         Alert alert = new Alert(typ);
@@ -66,16 +64,11 @@ public class AdminController extends SceneUtil {
 
     @FXML
     private void przejdzDoZarzadzania() {
-        otworzPanel("pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami");
+        otworzPanel("/pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami", cenaField);
     }
     @FXML
     private void wyloguj() {
-        try{
-            wyloguj("pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
 
 }
