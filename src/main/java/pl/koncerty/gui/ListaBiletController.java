@@ -10,8 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.hibernate.Session;
-import pl.koncerty.HibernateUtil;
+import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Koncert;
+import pl.koncerty.util.SceneUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +30,15 @@ public class ListaBiletController implements Initializable {
     @FXML private Label statusLabel;
 
     @FXML private ObservableList<Koncert> koncertList = FXCollections.observableArrayList();
+
+    private void otworzPanel(String sciezka, String tytul) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(sciezka));
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setTitle(tytul);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,6 +62,20 @@ public class ListaBiletController implements Initializable {
                 cenaField.setText(String.valueOf(wybrany.getCena()));
             }
         });
+    }
+
+    @FXML
+    private void oknoDoKupowaniaBiletow() throws Exception {
+        otworzPanel("pl/koncerty/gui/okno_kupowania_biletu.fxml", "Kup Bilet");
+    }
+    @FXML
+    private void wyloguj() {
+        try{
+            SceneUtil.wyloguj("pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 

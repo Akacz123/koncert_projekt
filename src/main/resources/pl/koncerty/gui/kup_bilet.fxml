@@ -30,12 +30,13 @@
                 <TextField fx:id="miejsceField" />
                 <TextField fx:id="cenaField" />
 
-                <Button fx:id="kupBtn" text="Kup Bilet"/>
+                <Button fx:id="kupBtn" onAction="#oknoDoKupowaniaBiletow" text="Kup Bilet"/>
 
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
         </VBox>
+        <Label layoutX="490" layoutY="10" onMouseClicked="#wyloguj" style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" text="Wyloguj się" />
     </children>
 </AnchorPane>

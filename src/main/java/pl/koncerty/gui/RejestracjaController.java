@@ -1,15 +1,12 @@
 package pl.koncerty.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import pl.koncerty.HibernateUtil;
+import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Uzytkownik;
 
 public class RejestracjaController {

@@ -2,26 +2,33 @@ package pl.koncerty.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import pl.koncerty.exceptions.NieprawidlowaCenaException;
 import pl.koncerty.model.Koncert;
-import pl.koncerty.HibernateUtil;
+import pl.koncerty.util.HibernateUtil;
+import pl.koncerty.util.SceneUtil;
 
-import java.net.URL;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
-public class AdminController {
+public class AdminController extends SceneUtil {
 
     @FXML private Button zarzadzajBtn;
     @FXML private TextField wykonawcaField, miejsceField, cenaField;
     @FXML private DatePicker dataPicker;
     @FXML private Label statusLabel;
+
+    private void pokazAlert(Alert.AlertType typ, String tresc) {
+        Alert alert = new Alert(typ);
+        alert.setTitle("Informacja");
+        alert.setHeaderText(null);
+        alert.setContentText(tresc);
+        alert.showAndWait();
+    }
 
     @FXML
     private void dodajKoncert() {
@@ -30,16 +37,16 @@ public class AdminController {
         String miejsce = miejsceField.getText();
         String cenaText = cenaField.getText();
 
-        System.out.println(data);
-
         if (wykonawca.isEmpty() || data == null || miejsce.isEmpty() || cenaText.isEmpty()) {
-            statusLabel.setText("Uzupełnij wszystkie pola.");
-            statusLabel.setStyle("-fx-text-fill: red;");
+            pokazAlert(Alert.AlertType.WARNING, "Uzupelnij wszystkie pola!");
             return;
         }
 
         try {
             double cena = Double.parseDouble(cenaText);
+            if (cena <= 0) {
+                throw new NieprawidlowaCenaException("Cena musi być większa niż 0.");
+            }
 
             Koncert koncert = new Koncert(wykonawca, data, miejsce, cena);
 
@@ -48,44 +55,25 @@ public class AdminController {
                 session.save(koncert);
                 tx.commit();
             }
-
-            statusLabel.setText("Koncert dodany!");
-            statusLabel.setStyle("-fx-text-fill: green;");
+            pokazAlert(Alert.AlertType.INFORMATION, "Koncert dodany!");
         } catch (NumberFormatException e) {
-            statusLabel.setText("Cena musi być liczbą.");
-            statusLabel.setStyle("-fx-text-fill: red;");
-        } catch (Exception e) {
-            statusLabel.setText("Błąd: " + e.getMessage());
-            statusLabel.setStyle("-fx-text-fill: red;");
+            pokazAlert(Alert.AlertType.WARNING, "Cena musi być liczbą!");
+        } catch (NieprawidlowaCenaException e) {
+            pokazAlert(Alert.AlertType.WARNING, e.getMessage());
         }
     }
+
 
     @FXML
     private void przejdzDoZarzadzania() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/koncerty/gui/zarzadzanie_koncertami.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Zarządzanie koncertami");
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        otworzPanel("pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami");
     }
     @FXML
     private void wyloguj() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/koncerty/gui/login.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Logowanie");
-            stage.setScene(scene);
-            stage.show();
-
-            Stage obecneOkno = (Stage) cenaField.getScene().getWindow();
-            obecneOkno.close();
-        } catch (Exception e) {
+        try{
+            wyloguj("pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }
