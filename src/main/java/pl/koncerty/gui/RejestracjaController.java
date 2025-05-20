@@ -15,7 +15,6 @@ public class RejestracjaController {
     private TextField imieField, nazwiskoField, emailField, loginField;
     @FXML
     private PasswordField hasloField;
-    private HibernateUtil HibernateUtil;
 
     @FXML
     private void zarejestrujUzytkownika() {
