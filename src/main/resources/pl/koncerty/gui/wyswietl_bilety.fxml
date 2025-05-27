@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pl.koncerty.gui.UzytkownikController"
+            fx:controller="pl.koncerty.gui.ShowTicketController"
             prefHeight="400.0" prefWidth="600.0">
 
+    <children>
+        <TableView fx:id="biletTable" layoutX="25.0" layoutY="25.0" prefHeight="350.0" prefWidth="550.0">
+            <columns>
+                <TableColumn fx:id="koncertCol" text="Wykonawca" prefWidth="250"/>
+                <TableColumn fx:id="dataCol" text="Data Zakupu" prefWidth="250"/>
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>

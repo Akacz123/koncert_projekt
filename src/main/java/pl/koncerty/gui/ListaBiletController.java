@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.hibernate.Session;
+import pl.koncerty.model.Bilet;
+import pl.koncerty.model.Uzytkownik;
 import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Koncert;
 import pl.koncerty.util.SceneUtil;
@@ -17,6 +19,7 @@ import pl.koncerty.util.SceneUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class ListaBiletController implements Initializable {
@@ -54,13 +57,43 @@ public class ListaBiletController implements Initializable {
     }
 
     @FXML
-    private void oknoDoKupowaniaBiletow() throws Exception {
-        SceneUtil.otworzPanel("pl/koncerty/gui/okno_kupowania_biletu.fxml", "Kup Bilet", cenaField);
+    private void oknoDoKupowaniaBiletow() {
+        Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
+
+        if (wybrany == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Wybierz koncert z listy.");
+            alert.show();
+            return;
+        }
+
+        Bilet bilet = new Bilet(uzytkownik, wybrany, LocalDateTime.now());
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.save(bilet);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bilet kupiony!");
+        alert.show();
     }
+
     @FXML
     private void wyloguj() {
         SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
 
+    public void initData(Uzytkownik u) {
+        this.uzytkownik = u;
+    }
+
+    private Uzytkownik uzytkownik;
+
+    public void initUzytkownik(Uzytkownik u) {
+        this.uzytkownik = u;
+    }
 
 }

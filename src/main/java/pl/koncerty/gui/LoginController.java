@@ -57,7 +57,12 @@ public class LoginController extends SceneUtil {
                 Uzytkownik uzytkownik = query.getSingleResult();
 
                 if (uzytkownik != null) {
-                    otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", cenaField);
+                    UzytkownikController controller = SceneUtil.otworzPanelIZwrocKontroler("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", loginField);
+                    if (controller != null) {
+                        controller.initUzytkownik(uzytkownik);
+                        controller.initData(uzytkownik);
+                    }
+
 
                     Stage currentStage = (Stage) loginField.getScene().getWindow();
                     currentStage.close();

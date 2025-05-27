@@ -1,0 +1,56 @@
+package pl.koncerty.gui;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import pl.koncerty.model.Bilet;
+import pl.koncerty.model.Uzytkownik;
+import pl.koncerty.util.HibernateUtil;
+
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
+
+public class ShowTicketController implements Initializable {
+    @FXML
+    private TableView<Bilet> biletTable;
+
+    @FXML
+    private TableColumn<Bilet, String> koncertCol;
+
+    @FXML
+    private TableColumn<Bilet, LocalDateTime> dataCol;
+
+    private Uzytkownik uzytkownik;
+
+    public void initUzytkownik(Uzytkownik u) {
+        this.uzytkownik = u;
+        zaladujBilety();
+    }
+
+    private void zaladujBilety() {
+        ObservableList<Bilet> bilety = FXCollections.observableArrayList();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Bilet> query = session.createQuery("FROM Bilet WHERE uzytkownik.id = :id", Bilet.class);
+            query.setParameter("id", uzytkownik.getId());
+            bilety.addAll(query.getResultList());
+        }
+
+        biletTable.setItems(bilety);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        koncertCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getKoncert().getWykonawca()));
+        dataCol.setCellValueFactory(new PropertyValueFactory<>("dataZakupu"));
+    }
+}
