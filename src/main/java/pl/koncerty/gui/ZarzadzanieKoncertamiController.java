@@ -29,7 +29,6 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
     @FXML private TextField wykonawcaField, miejsceField, cenaField;
     @FXML private DatePicker dataPicker;
-    @FXML private Button zapiszBtn;
 
     private ObservableList<Koncert> koncertList = FXCollections.observableArrayList();
 
@@ -78,17 +77,17 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
         koncertTableView.refresh();
     }
-    @FXML
-    private void powrotDoAdminPanelu() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel Administracyjny", cenaField);
-    }
+    @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
     }
+    @FXML private Button powrotBtn;
+
     @FXML
     private void powrot() {
-        SceneUtil.powrot(cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
     }
+
 
 }

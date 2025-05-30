@@ -8,16 +8,31 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.koncerty.gui.ShowTicketController"
             prefHeight="400.0" prefWidth="600.0">
-
+    <HBox spacing="10" layoutX="10" layoutY="10">
+        <children>
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
+                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+        </children>
+    </HBox>
     <children>
+
         <TableView fx:id="biletTable" layoutX="25.0" layoutY="25.0" prefHeight="350.0" prefWidth="550.0">
             <columns>
-                <TableColumn fx:id="koncertCol" text="Wykonawca" prefWidth="250"/>
-                <TableColumn fx:id="dataCol" text="Data Zakupu" prefWidth="250"/>
+                <TableColumn fx:id="koncertCol" text="Wykonawca" prefWidth="150"/>
+                <TableColumn fx:id="miejsceCol" text="Miejsce" prefWidth="100"/>
+                <TableColumn fx:id="dataKoncertuCol" text="Data koncertu" prefWidth="150"/>
+                <TableColumn fx:id="dataZakupuCol" text="Data zakupu" prefWidth="150"/>
             </columns>
         </TableView>
-    </children>
-    <Button layoutX="10.0" layoutY="10.0" text="← Powrót" onAction="#powrot" style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+        <Button text="Zwróć wybrany bilet" onAction="#zwrocBilet" layoutX="400" layoutY="380"/>
 
+
+    </children>
+
+    <Button text="Wyloguj się"
+            fx:id="wylogujBtn"
+            onMouseClicked="#wyloguj"
+            layoutX="490" layoutY="10"
+            style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
 
 </AnchorPane>

@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -85,9 +86,10 @@ public class ListaBiletController implements Initializable {
 
     }
 
+    @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
     }
 
     public void initData(Uzytkownik u) {
@@ -99,10 +101,15 @@ public class ListaBiletController implements Initializable {
     public void initUzytkownik(Uzytkownik u) {
         this.uzytkownik = u;
     }
+
+    @FXML private Button powrotBtn;
+
     @FXML
     private void powrot() {
-        SceneUtil.powrot(cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
     }
+
+
 
 
 }

@@ -6,10 +6,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.layout.HBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pl.koncerty.gui.AdminController" >
 
-
+    <HBox spacing="10" layoutX="10" layoutY="10">
+        <children>
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
+                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+        </children>
+    </HBox>
     <children>
         <Label layoutX="30" layoutY="20" text="Wykonawca:" />
         <TextField fx:id="wykonawcaField" layoutX="150" layoutY="15" />
@@ -26,11 +32,14 @@
         <Button layoutX="161.0" layoutY="181.0" onAction="#dodajKoncert" text="Dodaj koncert" />
         <Button fx:id="zarzadzajBtn" layoutX="142.0" layoutY="233.0" text="Zarządzaj koncertami" onAction="#przejdzDoZarzadzania"/>
 
-        <Label text="Wyloguj się" onMouseClicked="#wyloguj" style="-fx-text-fill: blue; -fx-underline: true;" layoutX="520" layoutY="10" />
-
+        <Button text="Wyloguj się"
+                fx:id="wylogujBtn"
+                onMouseClicked="#wyloguj"
+                layoutX="490" layoutY="10"
+                style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
         <Label fx:id="statusLabel" layoutX="30" layoutY="280" textFill="green" />
 
-        <Button layoutX="10.0" layoutY="10.0" text="← Powrót" onAction="#powrot" style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+
 
 
     </children>

@@ -13,7 +13,8 @@ import java.io.IOException;
 public class UzytkownikController extends SceneUtil{
 
 
-    @FXML private TextField cenaField;
+    @FXML private Button kupBiletBtn;
+    @FXML private Button showTicketBtn;
 
     @FXML
     private void buyTicket() {
@@ -29,12 +30,13 @@ public class UzytkownikController extends SceneUtil{
             stage.setScene(scene);
             stage.show();
 
-            Stage currentStage = (Stage) cenaField.getScene().getWindow();
-            currentStage.close();
+            Stage obecneOkno = (Stage) kupBiletBtn.getScene().getWindow();
+            obecneOkno.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void showTicket() {
@@ -50,7 +52,7 @@ public class UzytkownikController extends SceneUtil{
             stage.setScene(scene);
             stage.show();
 
-            Stage currentStage = (Stage) cenaField.getScene().getWindow();
+            Stage currentStage = (Stage) showTicketBtn.getScene().getWindow();
             currentStage.close();
 
         } catch (IOException e) {
@@ -59,10 +61,10 @@ public class UzytkownikController extends SceneUtil{
     }
 
 
-
+    @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
     }
 
     private Uzytkownik uzytkownik;
@@ -75,9 +77,12 @@ public class UzytkownikController extends SceneUtil{
         this.uzytkownik = uzytkownik;
     }
 
+    @FXML private Button powrotBtn;
+
     @FXML
     private void powrot() {
-        SceneUtil.powrot(cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
     }
+
 
 }

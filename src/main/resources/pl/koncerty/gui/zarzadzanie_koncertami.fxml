@@ -10,7 +10,14 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.koncerty.gui.ZarzadzanieKoncertamiController">
+    <HBox spacing="10" layoutX="10" layoutY="10">
+        <children>
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
+                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+        </children>
+    </HBox>
    <children>
 
       <TableView fx:id="koncertTableView" prefHeight="394.0" prefWidth="399.0">
@@ -29,7 +36,6 @@
              <TextField fx:id="cenaField" />
 
              <Button fx:id="zapiszBtn" text="Zapisz zmiany" onAction="#zapiszZmiany"/>
-             <Button fx:id="powrotBtn" text="Powrót" onAction="#powrotDoAdminPanelu"/>
 
          </children>
          <padding>
@@ -37,11 +43,13 @@
          </padding>
       </VBox>
    </children>
-    <Label text="Wyloguj się"
+    <Button text="Wyloguj się"
+           fx:id="wylogujBtn"
            onMouseClicked="#wyloguj"
            layoutX="490" layoutY="10"
            style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
-    <Button layoutX="10.0" layoutY="10.0" text="← Powrót" onAction="#powrot" style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+
+
 
 
 </AnchorPane>

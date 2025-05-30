@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "bilet")
 public class Bilet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id; // Zmienione z int na Long
 
     @ManyToOne
     @JoinColumn(name = "uzytkownik_id")
@@ -18,7 +19,10 @@ public class Bilet {
     @JoinColumn(name = "koncert_id")
     private Koncert koncert;
 
+    @Column(name = "data_zakupu")
     private LocalDateTime dataZakupu;
+
+    @Column(name = "numer_biletu")
     private String numerBiletu;
 
     public Bilet(Uzytkownik uzytkownik, Koncert koncert, LocalDateTime dataZakupu) {
@@ -28,49 +32,21 @@ public class Bilet {
         this.numerBiletu = "B" + System.currentTimeMillis();
     }
 
+    public Bilet() {}
 
-    public Bilet() {
+    // Gettery i settery
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    }
+    public String getNumerBiletu() { return numerBiletu; }
+    public void setNumerBiletu(String numerBiletu) { this.numerBiletu = numerBiletu; }
 
+    public LocalDateTime getDataZakupu() { return dataZakupu; }
+    public void setDataZakupu(LocalDateTime dataZakupu) { this.dataZakupu = dataZakupu; }
 
-    public String getNumerBiletu() {
-        return numerBiletu;
-    }
+    public Koncert getKoncert() { return koncert; }
+    public void setKoncert(Koncert koncert) { this.koncert = koncert; }
 
-    public void setNumerBiletu(String numerBiletu) {
-        this.numerBiletu = numerBiletu;
-    }
-
-    public LocalDateTime getDataZakupu() {
-        return dataZakupu;
-    }
-
-    public void setDataZakupu(LocalDateTime dataZakupu) {
-        this.dataZakupu = dataZakupu;
-    }
-
-    public Koncert getKoncert() {
-        return koncert;
-    }
-
-    public void setKoncert(Koncert koncert) {
-        this.koncert = koncert;
-    }
-
-    public Uzytkownik getUzytkownik() {
-        return uzytkownik;
-    }
-
-    public void setUzytkownik(Uzytkownik uzytkownik) {
-        this.uzytkownik = uzytkownik;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public Uzytkownik getUzytkownik() { return uzytkownik; }
+    public void setUzytkownik(Uzytkownik uzytkownik) { this.uzytkownik = uzytkownik; }
 }

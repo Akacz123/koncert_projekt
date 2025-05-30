@@ -66,14 +66,18 @@ public class AdminController extends SceneUtil{
     private void przejdzDoZarzadzania() {
         otworzPanel("/pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami", cenaField);
     }
+    @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
     }
+    @FXML private Button powrotBtn;
+
     @FXML
     private void powrot() {
-        SceneUtil.powrot(cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
     }
+
 
 
 }
