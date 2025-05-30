@@ -17,4 +17,7 @@
             </columns>
         </TableView>
     </children>
+    <Button layoutX="10.0" layoutY="10.0" text="← Powrót" onAction="#powrot" style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+
+
 </AnchorPane>

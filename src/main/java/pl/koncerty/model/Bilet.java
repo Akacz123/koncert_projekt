@@ -21,8 +21,13 @@ public class Bilet {
     private LocalDateTime dataZakupu;
     private String numerBiletu;
 
-    public Bilet(Uzytkownik uzytkownik, Koncert wybrany, LocalDateTime now) {
+    public Bilet(Uzytkownik uzytkownik, Koncert koncert, LocalDateTime dataZakupu) {
+        this.uzytkownik = uzytkownik;
+        this.koncert = koncert;
+        this.dataZakupu = dataZakupu;
+        this.numerBiletu = "B" + System.currentTimeMillis();
     }
+
 
     public Bilet() {
 

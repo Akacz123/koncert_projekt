@@ -86,4 +86,9 @@ public class ZarzadzanieKoncertamiController implements Initializable {
     private void wyloguj() {
         SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(cenaField);
+    }
+
 }

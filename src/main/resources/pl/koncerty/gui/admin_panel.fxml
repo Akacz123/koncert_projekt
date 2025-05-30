@@ -29,5 +29,9 @@
         <Label text="Wyloguj się" onMouseClicked="#wyloguj" style="-fx-text-fill: blue; -fx-underline: true;" layoutX="520" layoutY="10" />
 
         <Label fx:id="statusLabel" layoutX="30" layoutY="280" textFill="green" />
+
+        <Button layoutX="10.0" layoutY="10.0" text="← Powrót" onAction="#powrot" style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
+
+
     </children>
 </AnchorPane>

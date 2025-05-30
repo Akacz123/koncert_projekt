@@ -57,7 +57,7 @@ public class ListaBiletController implements Initializable {
     }
 
     @FXML
-    private void oknoDoKupowaniaBiletow() {
+    private void kupBilet() {
         Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
 
         if (wybrany == null) {
@@ -77,8 +77,12 @@ public class ListaBiletController implements Initializable {
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bilet kupiony!");
-        alert.show();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sukces");
+        alert.setHeaderText(null);
+        alert.setContentText("Bilet kupiony pomyślnie!");
+        alert.showAndWait();
+
     }
 
     @FXML
@@ -95,5 +99,10 @@ public class ListaBiletController implements Initializable {
     public void initUzytkownik(Uzytkownik u) {
         this.uzytkownik = u;
     }
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(cenaField);
+    }
+
 
 }

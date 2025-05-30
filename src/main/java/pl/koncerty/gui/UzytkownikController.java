@@ -22,12 +22,15 @@ public class UzytkownikController extends SceneUtil{
             Scene scene = new Scene(loader.load());
 
             ListaBiletController controller = loader.getController();
-            controller.initUzytkownik(this.uzytkownik); // przekaż użytkownika
+            controller.initUzytkownik(this.uzytkownik);
 
             Stage stage = new Stage();
             stage.setTitle("Kupno biletu");
             stage.setScene(scene);
             stage.show();
+
+            Stage currentStage = (Stage) cenaField.getScene().getWindow();
+            currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,10 +49,15 @@ public class UzytkownikController extends SceneUtil{
             stage.setTitle("Twoje bilety");
             stage.setScene(scene);
             stage.show();
+
+            Stage currentStage = (Stage) cenaField.getScene().getWindow();
+            currentStage.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 
     @FXML
@@ -65,6 +73,11 @@ public class UzytkownikController extends SceneUtil{
 
     public void initUzytkownik(Uzytkownik uzytkownik) {
         this.uzytkownik = uzytkownik;
+    }
+
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(cenaField);
     }
 
 }

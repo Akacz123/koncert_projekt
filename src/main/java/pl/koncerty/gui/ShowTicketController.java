@@ -13,6 +13,7 @@ import org.hibernate.query.Query;
 import pl.koncerty.model.Bilet;
 import pl.koncerty.model.Uzytkownik;
 import pl.koncerty.util.HibernateUtil;
+import pl.koncerty.util.SceneUtil;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -53,4 +54,9 @@ public class ShowTicketController implements Initializable {
                 new SimpleStringProperty(cellData.getValue().getKoncert().getWykonawca()));
         dataCol.setCellValueFactory(new PropertyValueFactory<>("dataZakupu"));
     }
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(biletTable);
+    }
+
 }

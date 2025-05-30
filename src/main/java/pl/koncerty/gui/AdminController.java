@@ -70,5 +70,10 @@ public class AdminController extends SceneUtil{
     private void wyloguj() {
         otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(cenaField);
+    }
+
 
 }
