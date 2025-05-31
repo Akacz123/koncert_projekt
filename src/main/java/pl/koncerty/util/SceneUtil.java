@@ -19,9 +19,7 @@ import javafx.scene.control.Alert;
 public class SceneUtil {
 
     private static final Stack<SceneData> historiaScen = new Stack<>();
-    private static Uzytkownik aktualnyUzytkownik; // Dodana statyczna zmienna
-
-    // Metody do zarządzania aktualnym użytkownikiem
+    private static Uzytkownik aktualnyUzytkownik;
     public static void setAktualnyUzytkownik(Uzytkownik uzytkownik) {
         aktualnyUzytkownik = uzytkownik;
         System.out.println("SceneUtil - ustawiono aktualnego użytkownika: " +
@@ -42,7 +40,6 @@ public class SceneUtil {
             Parent root = fxmlLoader.load();
             Object controller = fxmlLoader.getController();
 
-            // Pass the user to the controller if it's an UzytkownikController or ShowTicketController
             if (aktualnyUzytkownik != null) {
                 if (controller instanceof UzytkownikController) {
                     System.out.println("Przekazano użytkownika do UzytkownikController: " + aktualnyUzytkownik.getLogin());
@@ -64,15 +61,12 @@ public class SceneUtil {
             stage.setResizable(false);
             stage.show();
 
-            // Dodaj aktualną scenę do historii, zanim zamkniemy poprzednią
-            // Zachowujemy obecny Stage, Scene i Tytuł
             if (componentToClose != null && componentToClose.getScene() != null && componentToClose.getScene().getWindow() instanceof Stage) {
                 Stage currentStage = (Stage) componentToClose.getScene().getWindow();
                 historiaScen.push(new SceneData(currentStage.getScene(), currentStage.getTitle(), currentStage));
                 System.out.println("Dodano do historii: " + currentStage.getTitle());
             }
 
-            // Close the current window if componentToClose is provided
             if (componentToClose != null && componentToClose.getScene() != null && componentToClose.getScene().getWindow() instanceof Stage) {
                 ((Stage) componentToClose.getScene().getWindow()).close();
                 System.out.println("Zamknięto poprzednie okno.");
@@ -106,7 +100,6 @@ public class SceneUtil {
         }
     }
 
-    // Metoda do wylogowania
     public static void wyloguj(Node komponentZOknaDoZamkniecia) {
         aktualnyUzytkownik = null;
         System.out.println("SceneUtil - użytkownik wylogowany");
@@ -116,7 +109,7 @@ public class SceneUtil {
     private static class SceneData {
         Scene scene;
         String tytul;
-        Stage stage; // Dodane pole do przechowywania referencji do Stage
+        Stage stage;
 
         public SceneData(Scene scene, String tytul, Stage stage) {
             this.scene = scene;

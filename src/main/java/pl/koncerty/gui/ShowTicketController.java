@@ -5,11 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import pl.koncerty.model.Bilet;
@@ -67,11 +69,10 @@ public class ShowTicketController implements Initializable {
         SceneUtil.powrot(powrotBtn);
     }
 
-    @FXML private Button wylogujBtn;
     @FXML
-    private void wyloguj() {
-        System.out.println("ShowTicketController - wylogowywanie użytkownika");
-        SceneUtil.wyloguj(wylogujBtn);
+    private void wyloguj(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        SceneUtil.wyloguj(source);
     }
 
     @FXML

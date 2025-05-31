@@ -22,14 +22,6 @@ public class AdminController {
     @FXML private DatePicker dataPicker;
     @FXML private Label statusLabel;
 
-    private void pokazAlert(Alert.AlertType typ, String tresc) {
-        Alert alert = new Alert(typ);
-        alert.setTitle("Informacja");
-        alert.setHeaderText(null);
-        alert.setContentText(tresc);
-        alert.showAndWait();
-    }
-
     @FXML
     private void dodajKoncert() {
         String wykonawca = wykonawcaField.getText();
