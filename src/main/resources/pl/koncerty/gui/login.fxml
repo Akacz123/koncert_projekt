@@ -33,7 +33,7 @@
                visible="false" managed="false"/>
 
         <Button fx:id="zalogujBtn" maxWidth="Infinity" onAction="#zaloguj" styleClass="button-primary-dark"
-                text="Zaloguj się"/>
+                text="Zaloguj się" defaultButton="true"/>
         <Button fx:id="przejdzDoRejestracjiBtn" maxWidth="Infinity" onAction="#przejdzDoRejestracji"
                 styleClass="button-secondary-link" text="Nie masz konta? Zarejestruj się"/>
     </VBox>

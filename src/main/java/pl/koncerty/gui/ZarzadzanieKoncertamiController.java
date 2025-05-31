@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.koncerty.util.HibernateUtil;
@@ -126,8 +128,9 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
     @FXML private Button wylogujBtn;
     @FXML
-    private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
+    private void wyloguj(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        SceneUtil.wyloguj(source);
     }
 
     @FXML private Button powrotBtn;

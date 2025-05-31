@@ -49,6 +49,9 @@
                 <Button fx:id="zapiszBtn" text="Zapisz zmiany" onAction="#zapiszZmiany"
                         prefHeight="45" maxWidth="Infinity"
                         styleClass="button button-special-action"/>
+                <Button fx:id="usunBtn" text="Usuń Koncert" onAction="#usunKoncert"
+                        prefHeight="45" maxWidth="Infinity"
+                        styleClass="button button-special-action"/>
             </VBox>
         </HBox>
     </center>
