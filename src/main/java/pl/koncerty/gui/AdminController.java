@@ -1,10 +1,10 @@
 package pl.koncerty.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.koncerty.exceptions.NieprawidlowaCenaException;
@@ -12,13 +12,15 @@ import pl.koncerty.model.Koncert;
 import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.util.SceneUtil;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
-public class AdminController extends SceneUtil{
+public class AdminController {
 
-    @FXML private TextField wykonawcaField, miejsceField, cenaField;
+    @FXML private TextField wykonawcaField;
+    @FXML private TextField miejsceField;
+    @FXML private TextField cenaField;
     @FXML private DatePicker dataPicker;
+    @FXML private Label statusLabel;
 
     private void pokazAlert(Alert.AlertType typ, String tresc) {
         Alert alert = new Alert(typ);
@@ -34,9 +36,10 @@ public class AdminController extends SceneUtil{
         LocalDate data = dataPicker.getValue();
         String miejsce = miejsceField.getText();
         String cenaText = cenaField.getText();
+        statusLabel.setText("");
 
         if (wykonawca.isEmpty() || data == null || miejsce.isEmpty() || cenaText.isEmpty()) {
-            pokazAlert(Alert.AlertType.WARNING, "Uzupelnij wszystkie pola!");
+            statusLabel.setText("Uzupełnij wszystkie pola!");
             return;
         }
 
@@ -53,31 +56,35 @@ public class AdminController extends SceneUtil{
                 session.save(koncert);
                 tx.commit();
             }
-            pokazAlert(Alert.AlertType.INFORMATION, "Koncert dodany!");
+            statusLabel.setText("Koncert dodany pomyślnie!");
+            wykonawcaField.clear();
+            dataPicker.setValue(null);
+            miejsceField.clear();
+            cenaField.clear();
+
         } catch (NumberFormatException e) {
-            pokazAlert(Alert.AlertType.WARNING, "Cena musi być liczbą!");
+            statusLabel.setText("Cena musi być liczbą!");
         } catch (NieprawidlowaCenaException e) {
-            pokazAlert(Alert.AlertType.WARNING, e.getMessage());
+            statusLabel.setText(e.getMessage());
+        } catch (Exception e) {
+            statusLabel.setText("Błąd dodawania koncertu: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
 
     @FXML
     private void przejdzDoZarzadzania() {
-        otworzPanel("/pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami", cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/zarzadzanie_koncertami.fxml", "Zarządzanie Koncertami", cenaField);
     }
-    @FXML private Button wylogujBtn;
+
     @FXML
     private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", cenaField);
     }
-    @FXML private Button powrotBtn;
 
     @FXML
     private void powrot() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
+        SceneUtil.powrot(cenaField);
     }
-
-
-
 }

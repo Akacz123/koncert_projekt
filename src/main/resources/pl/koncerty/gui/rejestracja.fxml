@@ -1,29 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pl.koncerty.gui.RejestracjaController"
-            prefWidth="350" prefHeight="300">
+<VBox alignment="CENTER" styleClass="root" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="pl.koncerty.gui.RejestracjaController">
+    <VBox styleClass="registration-container">
+        <VBox alignment="CENTER" styleClass="logo-image-container">
+            <ImageView fx:id="logoRejestracja" fitHeight="60.0" fitWidth="220.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../img/sonicevents_logo.png"/>
+                </image>
+            </ImageView>
+        </VBox>
 
-    <children>
-        <Label layoutX="30" layoutY="20" text="Imię:"/>
-        <TextField fx:id="imieField" layoutX="130" layoutY="15"/>
+        <Label alignment="CENTER" styleClass="title-label" text="Stwórz nowe konto">
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+        </Label>
 
-        <Label layoutX="30" layoutY="60" text="Nazwisko:"/>
-        <TextField fx:id="nazwiskoField" layoutX="130" layoutY="55"/>
+        <GridPane hgap="10" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="80.0" prefWidth="80.0"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
 
-        <Label layoutX="30" layoutY="100" text="E-mail:"/>
-        <TextField fx:id="emailField" layoutX="130" layoutY="95"/>
+            <Label text="Imię:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="0"/>
+            <TextField fx:id="imieField" promptText="Twoje imię" styleClass="text-field-styled"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <Label layoutX="30" layoutY="140" text="Login:"/>
-        <TextField fx:id="loginField" layoutX="130" layoutY="135"/>
+            <Label text="Nazwisko:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1"/>
+            <TextField fx:id="nazwiskoField" promptText="Twoje nazwisko" styleClass="text-field-styled"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <Label layoutX="30" layoutY="180" text="Hasło:"/>
-        <PasswordField fx:id="hasloField" layoutX="130" layoutY="175"/>
+            <Label text="E-mail:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+            <TextField fx:id="emailField" promptText="Adres e-mail" styleClass="text-field-styled"
+                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Button layoutX="130" layoutY="220" text="Zarejestruj" onAction="#zarejestrujUzytkownika"/>
-    </children>
-</AnchorPane>
+            <Label text="Login:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+            <TextField fx:id="loginField" promptText="Nazwa użytkownika" styleClass="text-field-styled"
+                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <Label text="Hasło:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="4"/>
+            <PasswordField fx:id="hasloField" promptText="Twoje hasło" styleClass="password-field-styled"
+                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        </GridPane>
+
+        <Label fx:id="statusRejestracjiLabel" alignment="CENTER" styleClass="status-label"
+               managed="false" visible="false">
+            <VBox.margin>
+                <Insets bottom="5.0" top="5.0"/>
+            </VBox.margin>
+        </Label>
+
+        <Button maxWidth="Infinity" onAction="#zarejestrujUzytkownika" styleClass="button-primary-dark"
+                text="Zarejestruj się">
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
+        </Button>
+
+        <Button fx:id="powrotDoLogowaniaBtn" maxWidth="Infinity" onAction="#powrotDoLogowania"
+                styleClass="button-secondary-link" text="Masz już konto? Zaloguj się">
+            <VBox.margin>
+                <Insets top="5.0"/>
+            </VBox.margin>
+        </Button>
+
+    </VBox>
+</VBox>

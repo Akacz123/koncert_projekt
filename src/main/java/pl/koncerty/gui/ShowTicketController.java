@@ -32,52 +32,48 @@ public class ShowTicketController implements Initializable {
     @FXML private TableColumn<Bilet, String> dataKoncertuCol;
     @FXML private TableColumn<Bilet, LocalDateTime> dataZakupuCol;
 
-
     private Uzytkownik uzytkownik;
 
     public void initUzytkownik(Uzytkownik u) {
+        System.out.println("ShowTicketController - inicjalizacja użytkownika: " +
+                (u != null ? u.getLogin() + " (ID: " + u.getId() + ")" : "NULL"));
         this.uzytkownik = u;
-        zaladujBilety();
-    }
-
-    private void zaladujBilety() {
-        ObservableList<Bilet> bilety = FXCollections.observableArrayList();
-
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Bilet> query = session.createQuery("FROM Bilet WHERE uzytkownik.id = :id", Bilet.class);
-            query.setParameter("id", uzytkownik.getId());
-            bilety.addAll(query.getResultList());
+        if (u != null) {
+            zaladujBiletyUzytkownika();
         }
-
-        biletTable.setItems(bilety);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        koncertCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getKoncert().getWykonawca()));
+        System.out.println("ShowTicketController - initialize() wywołane");
 
-        miejsceCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getKoncert().getMiejsce()));
-
-        dataKoncertuCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getKoncert().getData().toString()));
-
+        koncertCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKoncert().getWykonawca()));
+        miejsceCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKoncert().getMiejsce()));
+        dataKoncertuCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKoncert().getData().toString()));
         dataZakupuCol.setCellValueFactory(new PropertyValueFactory<>("dataZakupu"));
-    }
 
+        Uzytkownik u = SceneUtil.getAktualnyUzytkownik();
+        if (u != null) {
+            initUzytkownik(u);
+        } else {
+            System.out.println("UWAGA: Brak użytkownika w SceneUtil podczas initialize() w ShowTicketController");
+        }
+    }
     @FXML private Button powrotBtn;
 
     @FXML
     private void powrot() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
+        System.out.println("ShowTicketController - powrót do poprzedniej sceny");
+        SceneUtil.powrot(powrotBtn);
     }
 
     @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
+        System.out.println("ShowTicketController - wylogowywanie użytkownika");
+        SceneUtil.wyloguj(wylogujBtn);
     }
+
     @FXML
     private void zwrocBilet() {
         Bilet wybrany = biletTable.getSelectionModel().getSelectedItem();
@@ -91,10 +87,33 @@ public class ShowTicketController implements Initializable {
             Bilet b = session.get(Bilet.class, wybrany.getId());
             session.delete(b);
             session.getTransaction().commit();
-        }
 
-        biletTable.getItems().remove(wybrany);
-        new Alert(Alert.AlertType.INFORMATION, "Bilet został zwrócony.").show();
+            System.out.println("Zwrócono bilet ID: " + wybrany.getId());
+            zaladujBiletyUzytkownika(); // Odśwież listę biletów po usunięciu
+            new Alert(Alert.AlertType.INFORMATION, "Bilet zwrócono pomyślnie.").show();
+        } catch (Exception e) {
+            System.out.println("BŁĄD podczas zwracania biletu: " + e.getMessage());
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Błąd podczas zwracania biletu: " + e.getMessage()).show();
+        }
     }
 
+    private void zaladujBiletyUzytkownika() {
+        if (uzytkownik == null) {
+            System.out.println("Brak zalogowanego użytkownika do załadowania biletów.");
+            return;
+        }
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Bilet> query = session.createQuery(
+                    "FROM Bilet WHERE uzytkownik = :uzytkownik", Bilet.class);
+            query.setParameter("uzytkownik", uzytkownik);
+            ObservableList<Bilet> bilety = FXCollections.observableArrayList(query.getResultList());
+            biletTable.setItems(bilety);
+            System.out.println("Załadowano " + bilety.size() + " biletów dla użytkownika ID: " + uzytkownik.getId());
+        } catch (Exception e) {
+            System.out.println("BŁĄD podczas ładowania biletów użytkownika: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

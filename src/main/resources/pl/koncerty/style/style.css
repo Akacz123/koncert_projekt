@@ -1,0 +1,257 @@
+/* NOWOCZESNY STYL LOGOWANIA DLA JAVAFX - BEZ CSS VARIABLES */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 40px 20px;
+}
+
+.button {
+    -fx-background-color: #007aff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: #005bb5;
+}
+
+.button-navigation {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+}
+
+.button-navigation:hover {
+    -fx-background-color: #dcdcdc;
+}
+
+.button-special-action {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+}
+
+.button-special-action:hover {
+    -fx-background-color: #2980b9;
+}
+
+.return-button {
+    -fx-background-color: #cccccc;
+    -fx-text-fill: black;
+    -fx-background-radius: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+}
+
+.return-button:hover {
+    -fx-background-color: #aaaaaa;
+}
+
+.logout-label {
+    -fx-text-fill: #555555;
+    -fx-font-weight: bold;
+    -fx-underline: false;
+    -fx-cursor: hand;
+}
+
+.logout-label:hover {
+    -fx-text-fill: #222222;
+}
+
+.title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+    -fx-padding: 0 0 10px 0;
+}
+
+.panel-title-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.panel-title-label-on-light {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+}
+
+.subtitle-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #666666;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-padding: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 2, 0, 0, 1);
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #dbeaff;
+}
+
+.table-column-header-background {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-column {
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+.anchor-pane {
+    -fx-padding: 15px;
+}
+
+.panel-dark {
+    -fx-background-color: #2c3e50;
+    -fx-background-radius: 12px;
+    -fx-padding: 25px;
+}
+
+.panel-light {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 12px;
+    -fx-padding: 25px;
+}
+
+/* GŁÓWNE STYLE DLA NOWOCZESNEGO LOGOWANIA */
+.text-field-styled {
+    -fx-padding: 16px 20px;
+    -fx-background-radius: 8px;
+    -fx-background-color: white;
+    -fx-border-color: #e1e5e9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+    -fx-prompt-text-fill: #adb5bd;
+}
+
+.password-field-styled {
+    -fx-padding: 16px 20px;
+    -fx-background-radius: 8px;
+    -fx-background-color: white;
+    -fx-border-color: #e1e5e9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+    -fx-prompt-text-fill: #adb5bd;
+}
+
+.date-picker-styled {
+    -fx-padding: 0;
+    -fx-background-radius: 8px;
+    -fx-background-color: white;
+    -fx-border-color: #e1e5e9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+.logo-image-container {
+    -fx-alignment: center;
+    -fx-padding: 0 0 40px 0;
+}
+
+/* KONTENER LOGOWANIA - NOWOCZESNY BIAŁE TŁO */
+.login-container {
+    -fx-max-width: 400px;
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-padding: 50px 40px;
+    -fx-background-color: white;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 4);
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+}
+
+.registration-container {
+    -fx-max-width: 400px;
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-padding: 50px 40px;
+    -fx-background-color: white;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 4);
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+}
+
+/* PRZYCISK GŁÓWNY - CIEMNY */
+.button-primary-dark {
+    -fx-background-color: #343a40;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 15px;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px 20px;
+    -fx-cursor: hand;
+}
+
+.button-primary-dark:hover {
+    -fx-background-color: #23272b;
+}
+
+/* PRZYCISK DRUGORZĘDNY */
+.button-secondary-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6c757d;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-padding: 10px 0px;
+    -fx-underline: false;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+}
+
+.button-secondary-link:hover {
+    -fx-text-fill: #495057;
+}
+
+/* LINK ZAPOMNIAŁEŚ HASŁA - CYAN */
+.forgot-password-link {
+    -fx-text-fill: #17a2b8;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-underline: false;
+    -fx-cursor: hand;
+    -fx-padding: 0 5px 10px 0;
+}
+
+.forgot-password-link:hover {
+    -fx-underline: true;
+    -fx-text-fill: #138496;
+}
+
+.status-label {
+    -fx-font-weight: normal;
+    -fx-font-size: 13px;
+    -fx-text-fill: #e74c3c;
+    -fx-alignment: center;
+    -fx-min-height: 1.5em;
+    -fx-padding: 5px 0;
+}

@@ -1,30 +1,29 @@
 package pl.koncerty.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.hibernate.Session;
-import pl.koncerty.util.HibernateUtil;
-import pl.koncerty.exceptions.LoginException;
-import pl.koncerty.model.Uzytkownik;
 import org.hibernate.query.Query;
+import pl.koncerty.model.Uzytkownik;
+import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.util.SceneUtil;
 
 import javax.persistence.NoResultException;
+import java.util.Optional;
 
-public class LoginController extends SceneUtil {
+public class LoginController {
 
-    @FXML private TextField cenaField;
-    @FXML
-    private TextField loginField;
+    @FXML private TextField loginField;
+    @FXML private PasswordField hasloField;
+    @FXML private ImageView logo;
+    @FXML private Label statusLabel;
 
-    @FXML
-    private PasswordField hasloField;
-
-    @FXML
-    private Label statusLabel;
 
     private void pokazAlert(Alert.AlertType typ, String tresc) {
         Alert alert = new Alert(typ);
@@ -33,18 +32,21 @@ public class LoginController extends SceneUtil {
         alert.setContentText(tresc);
         alert.showAndWait();
     }
+
     @FXML
     private void zaloguj() {
         String login = loginField.getText();
         String haslo = hasloField.getText();
+        statusLabel.setText("");
 
         try {
+            if (login.isEmpty() || haslo.isEmpty()) {
+                statusLabel.setText("Login i hasło nie mogą być puste.");
+                return;
+            }
+
             if (login.equals("admin") && haslo.equals("admin")) {
-                otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel administratora", cenaField);
-
-                Stage currentStage = (Stage) loginField.getScene().getWindow();
-                currentStage.close();
-
+                SceneUtil.otworzPanel("/pl/koncerty/gui/admin_panel.fxml", "Panel administratora", loginField);
                 return;
             }
 
@@ -56,31 +58,42 @@ public class LoginController extends SceneUtil {
 
                 Uzytkownik uzytkownik = query.getSingleResult();
 
-                if (uzytkownik != null) {
-                    UzytkownikController controller = SceneUtil.otworzPanelIZwrocKontroler("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", loginField);
-                    if (controller != null) {
-                        controller.initUzytkownik(uzytkownik);
-                        controller.initData(uzytkownik);
-                    }
+                SceneUtil.setAktualnyUzytkownik(uzytkownik);
 
+                SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", loginField);
 
-                    Stage currentStage = (Stage) loginField.getScene().getWindow();
-                    currentStage.close();
-                }
             } catch (NoResultException e) {
-                throw new LoginException("Nieprawidłowy login lub hasło.");
+                statusLabel.setText("Nieprawidłowy login lub hasło.");
             }
 
-        } catch (LoginException e) {
-           pokazAlert(Alert.AlertType.WARNING, e.getMessage());
         } catch (Exception e) {
-            pokazAlert(Alert.AlertType.WARNING, "Bląd logowania!");
+            statusLabel.setText("Błąd logowania: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @FXML
     private void przejdzDoRejestracji() {
-        otworzPanel("/pl/koncerty/gui/rejestracja.fxml", "Rejestracja", cenaField);
+        SceneUtil.otworzPanel("/pl/koncerty/gui/rejestracja.fxml", "Rejestracja", loginField);
+    }
+
+    @FXML
+    private void obslugaZapomnialemHasla() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Resetowanie Hasła");
+        dialog.setHeaderText("Podaj swój adres e-mail, aby otrzymać instrukcje resetowania hasła.");
+        dialog.setContentText("E-mail:");
+
+        Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        dialogStage.getIcons().clear();
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(email -> {
+            if (!email.trim().isEmpty()) {
+                pokazAlert(Alert.AlertType.INFORMATION, "Jeśli podany adres e-mail istnieje w systemie, instrukcje resetowania hasła zostały wysłane na adres: " + email);
+            } else {
+                pokazAlert(Alert.AlertType.WARNING, "Adres e-mail nie może być pusty.");
+            }
+        });
     }
 }

@@ -1,55 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.koncerty.gui.ZarzadzanieKoncertamiController">
-    <HBox spacing="10" layoutX="10" layoutY="10">
-        <children>
-            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
-                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
-        </children>
-    </HBox>
-   <children>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pl.koncerty.gui.ZarzadzanieKoncertamiController"
+            styleClass="root">
 
-      <TableView fx:id="koncertTableView" prefHeight="394.0" prefWidth="399.0">
-        <columns>
-          <TableColumn fx:id="wykonawcaCol" prefWidth="106.4000244140625" text="Wykonawca" />
-          <TableColumn fx:id="dataCol" prefWidth="85.5999755859375" text="Data" />
-            <TableColumn fx:id="miejsceCol" prefWidth="100.800048828125" text="Miejsce" />
-            <TableColumn fx:id="cenaCol" prefWidth="102.4000244140625" text="Cena" />
-        </columns>
-      </TableView>
-      <VBox alignment="CENTER" layoutX="427.0" layoutY="21.0" prefHeight="350.0" prefWidth="155.0" spacing="35.0" style="-fx-background-color: black;">
-         <children>
-             <TextField fx:id="wykonawcaField" />
-             <DatePicker fx:id="dataPicker" />
-             <TextField fx:id="miejsceField" />
-             <TextField fx:id="cenaField" />
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot" styleClass="button-navigation"/>
+        </HBox>
+    </top>
 
-             <Button fx:id="zapiszBtn" text="Zapisz zmiany" onAction="#zapiszZmiany"/>
+    <center>
+        <HBox spacing="25" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
 
-         </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </VBox>
-   </children>
-    <Button text="Wyloguj się"
-           fx:id="wylogujBtn"
-           onMouseClicked="#wyloguj"
-           layoutX="490" layoutY="10"
-           style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
+            <VBox spacing="15" HBox.hgrow="ALWAYS" minWidth="450">
+                <Label text="Zarządzanie Koncertami" styleClass="title-label"/>
+                <TableView fx:id="koncertTableView" VBox.vgrow="ALWAYS" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="wykonawcaCol" text="Wykonawca" prefWidth="130"/>
+                        <TableColumn fx:id="dataCol" text="Data" prefWidth="110"/>
+                        <TableColumn fx:id="miejsceCol" text="Miejsce" prefWidth="130"/>
+                        <TableColumn fx:id="cenaCol" text="Cena" prefWidth="80"/>
+                    </columns>
+                </TableView>
+            </VBox>
 
+            <VBox alignment="TOP_CENTER" spacing="20" prefWidth="300" maxWidth="300" styleClass="panel-dark">
+                <Label text="Edytuj Koncert" styleClass="panel-title-label"/>
 
+                <VBox spacing="15" maxWidth="250">
+                    <TextField fx:id="wykonawcaField" promptText="Wykonawca" styleClass="text-field-styled"/>
+                    <DatePicker fx:id="dataPicker" promptText="Data" styleClass="date-picker-styled"/>
+                    <TextField fx:id="miejsceField" promptText="Miejsce" styleClass="text-field-styled"/>
+                    <TextField fx:id="cenaField" promptText="Cena" styleClass="text-field-styled"/>
+                </VBox>
 
+                <Button fx:id="zapiszBtn" text="Zapisz zmiany" onAction="#zapiszZmiany"
+                        prefHeight="45" maxWidth="Infinity"
+                        styleClass="button button-special-action"/>
+            </VBox>
+        </HBox>
+    </center>
 
-</AnchorPane>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="15"/>
+            </padding>
+            <Label text="Wyloguj się" styleClass="logout-label" onMouseClicked="#wyloguj"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

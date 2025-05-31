@@ -1,52 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.koncerty.gui.ListaBiletController"
-            prefHeight="400.0" prefWidth="600.0">
+            styleClass="root">
 
-    <HBox spacing="10" layoutX="10" layoutY="10">
-        <children>
-            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
-                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
-        </children>
-    </HBox>
-    <children>
-
-        <TableView fx:id="koncertTableView" prefHeight="394.0" prefWidth="399.0">
-            <columns>
-                <TableColumn fx:id="wykonawcaCol" prefWidth="106.4000244140625" text="Wykonawca" />
-                <TableColumn fx:id="dataCol" prefWidth="85.5999755859375" text="Data" />
-                <TableColumn fx:id="miejsceCol" prefWidth="100.800048828125" text="Miejsce" />
-                <TableColumn fx:id="cenaCol" prefWidth="102.4000244140625" text="Cena" />
-            </columns>
-        </TableView>
-        <VBox alignment="CENTER" layoutX="427.0" layoutY="21.0" prefHeight="350.0" prefWidth="155.0" spacing="35.0" style="-fx-background-color: black;">
-            <children>
-                <TextField fx:id="wykonawcaField" />
-                <DatePicker fx:id="dataPicker" />
-                <TextField fx:id="miejsceField" />
-                <TextField fx:id="cenaField" />
-
-                <Button fx:id="kupBtn" onAction="#kupBilet" text="Kup Bilet"/>
-
-            </children>
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
             <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
-        </VBox>
-        <Button text="Wyloguj się"
-                fx:id="wylogujBtn"
-                onMouseClicked="#wyloguj"
-                layoutX="490" layoutY="10"
-                style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot" styleClass="button-navigation"/>
+        </HBox>
+    </top>
 
-    </children>
-</AnchorPane>
+    <center>
+        <HBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <VBox spacing="10" HBox.hgrow="ALWAYS" minWidth="400">
+                <Label text="Dostępne Koncerty" styleClass="title-label"/>
+                <TableView fx:id="koncertTableView" VBox.vgrow="ALWAYS" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="wykonawcaCol" text="Wykonawca" prefWidth="120"/>
+                        <TableColumn fx:id="dataCol" text="Data" prefWidth="100"/>
+                        <TableColumn fx:id="miejsceCol" text="Miejsce" prefWidth="120"/>
+                        <TableColumn fx:id="cenaCol" text="Cena" prefWidth="80"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" spacing="20" prefWidth="280" maxWidth="280" styleClass="panel-light">
+                <Label text="Szczegóły Koncertu" styleClass="panel-title-label"/>
+
+                <VBox spacing="12" maxWidth="230">
+                    <TextField fx:id="wykonawcaField" promptText="Wykonawca" editable="false" styleClass="text-field-styled"/>
+                    <DatePicker fx:id="dataPicker" promptText="Data" editable="false" styleClass="date-picker-styled"/>
+                    <TextField fx:id="miejsceField" promptText="Miejsce" editable="false" styleClass="text-field-styled"/>
+                    <TextField fx:id="cenaField" promptText="Cena" editable="false" styleClass="text-field-styled"/>
+                </VBox>
+
+                <Button fx:id="kupBtn" onAction="#kupBilet" text="Kup Bilet"
+                        prefHeight="45" maxWidth="Infinity" styleClass="button"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="15"/>
+            </padding>
+            <Label text="Wyloguj się" styleClass="logout-label" onMouseClicked="#wyloguj"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

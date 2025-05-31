@@ -3,19 +3,15 @@ package pl.koncerty.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Koncert;
 import pl.koncerty.util.SceneUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -39,13 +35,9 @@ public class ZarzadzanieKoncertamiController implements Initializable {
         miejsceCol.setCellValueFactory(new PropertyValueFactory<>("miejsce"));
         cenaCol.setCellValueFactory(new PropertyValueFactory<>("cena"));
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            koncertList.addAll(session.createQuery("from Koncert", Koncert.class).list());
-        }
+        zaladujKoncerty();
 
-        koncertTableView.setItems(koncertList);
-
-        koncertTableView.setOnMouseClicked(event -> {
+        koncertTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
             if (wybrany != null) {
                 wykonawcaField.setText(wybrany.getWykonawca());
@@ -54,6 +46,53 @@ public class ZarzadzanieKoncertamiController implements Initializable {
                 cenaField.setText(String.valueOf(wybrany.getCena()));
             }
         });
+    }
+
+    private void zaladujKoncerty() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            koncertList.clear();
+            koncertList.addAll(session.createQuery("FROM Koncert", Koncert.class).list());
+            koncertTableView.setItems(koncertList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void dodajKoncert() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+
+            String wykonawca = wykonawcaField.getText();
+            LocalDate data = dataPicker.getValue();
+            String miejsce = miejsceField.getText();
+            double cena = Double.parseDouble(cenaField.getText());
+
+            Koncert nowyKoncert = new Koncert(wykonawca, data, miejsce, cena);
+            session.save(nowyKoncert);
+            tx.commit();
+
+            zaladujKoncerty();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void usunKoncert() {
+        Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
+        if (wybrany == null) return;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.delete(wybrany);
+            tx.commit();
+            zaladujKoncerty();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -77,17 +116,23 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
         koncertTableView.refresh();
     }
+
+    private void clearFields() {
+        wykonawcaField.clear();
+        dataPicker.setValue(null);
+        miejsceField.clear();
+        cenaField.clear();
+    }
+
     @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
         SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
     }
-    @FXML private Button powrotBtn;
 
+    @FXML private Button powrotBtn;
     @FXML
     private void powrot() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
+        SceneUtil.powrot(powrotBtn);
     }
-
-
 }

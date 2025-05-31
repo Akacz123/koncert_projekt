@@ -3,13 +3,9 @@ package pl.koncerty.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import org.hibernate.Session;
 import pl.koncerty.model.Bilet;
 import pl.koncerty.model.Uzytkownik;
@@ -17,11 +13,11 @@ import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Koncert;
 import pl.koncerty.util.SceneUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class ListaBiletController implements Initializable {
     @FXML
@@ -33,83 +29,111 @@ public class ListaBiletController implements Initializable {
     @FXML private DatePicker dataPicker;
     @FXML private ObservableList<Koncert> koncertList = FXCollections.observableArrayList();
 
+    private Uzytkownik uzytkownik;
+
+    @FXML private Button powrotBtn;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("ListaBiletController - initialize() wywołane");
+        uzytkownik = SceneUtil.getAktualnyUzytkownik();
+        if (uzytkownik != null) {
+            initUzytkownik(uzytkownik);
+        } else {
+            System.out.println("UWAGA: Brak użytkownika w SceneUtil podczas initialize() w ListaBiletController");
+        }
+
         wykonawcaCol.setCellValueFactory(new PropertyValueFactory<>("wykonawca"));
         dataCol.setCellValueFactory(new PropertyValueFactory<>("data"));
         miejsceCol.setCellValueFactory(new PropertyValueFactory<>("miejsce"));
         cenaCol.setCellValueFactory(new PropertyValueFactory<>("cena"));
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            koncertList.addAll(session.createQuery("from Koncert", Koncert.class).list());
-        }
+        zaladujKoncerty();
 
-        koncertTableView.setItems(koncertList);
-
-        koncertTableView.setOnMouseClicked(event -> {
-            Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
-            if (wybrany != null) {
-                wykonawcaField.setText(wybrany.getWykonawca());
-                dataPicker.setValue(wybrany.getData());
-                miejsceField.setText(wybrany.getMiejsce());
-                cenaField.setText(String.valueOf(wybrany.getCena()));
+        koncertTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                wykonawcaField.setText(newSelection.getWykonawca());
+                dataPicker.setValue(newSelection.getData());
+                miejsceField.setText(newSelection.getMiejsce());
+                cenaField.setText(String.valueOf(newSelection.getCena()));
+            } else {
+                wykonawcaField.setText("");
+                dataPicker.setValue(null);
+                miejsceField.setText("");
+                cenaField.setText("");
             }
         });
+    }
+
+    private void zaladujKoncerty() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            koncertList.clear();
+            koncertList.addAll(session.createQuery("FROM Koncert", Koncert.class).list());
+            koncertTableView.setItems(koncertList);
+        } catch (Exception e) {
+            System.out.println("BŁĄD podczas ładowania koncertów: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void kupBilet() {
         Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
-
         if (wybrany == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Wybierz koncert z listy.");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Wybierz koncert, aby kupić bilet.");
             alert.show();
             return;
         }
 
-        Bilet bilet = new Bilet(uzytkownik, wybrany, LocalDateTime.now());
+        if (uzytkownik == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Błąd: Brak zalogowanego użytkownika. Zaloguj się ponownie.");
+            alert.show();
+            return;
+        }
+
+        Bilet bilet = new Bilet();
+        bilet.setUzytkownik(uzytkownik);
+        bilet.setKoncert(wybrany);
+        bilet.setDataZakupu(LocalDateTime.now());
+        bilet.setNumerBiletu(UUID.randomUUID().toString());
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(bilet);
             session.getTransaction().commit();
+
+            System.out.println("Kupiono bilet dla użytkownika: " + uzytkownik.getLogin() +
+                    " na koncert: " + wybrany.getWykonawca());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION); // Przeniesione do try, aby wyświetlić tylko po sukcesie
+            alert.setTitle("Sukces");
+            alert.setHeaderText(null);
+            alert.setContentText("Bilet kupiony pomyślnie! Numer biletu: " + bilet.getNumerBiletu()); // Wyświetl numer
+            alert.showAndWait();
+
         } catch (Exception e) {
+            System.out.println("BŁĄD podczas kupowania biletu: " + e.getMessage());
             e.printStackTrace();
-            return;
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Błąd podczas kupowania biletu: " + e.getMessage() + ". Sprawdź logi aplikacji."); // Bardziej ogólny komunikat
+            alert.show();
+            // return; // Usunięto return, aby alert się wyświetlił
         }
+    }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sukces");
-        alert.setHeaderText(null);
-        alert.setContentText("Bilet kupiony pomyślnie!");
-        alert.showAndWait();
-
+    @FXML
+    private void powrot() {
+        SceneUtil.powrot(powrotBtn);
     }
 
     @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/login.fxml", "Logowanie", wylogujBtn);
+        System.out.println("ListaBiletController - wylogowywanie użytkownika");
+        SceneUtil.wyloguj(wylogujBtn);
     }
-
-    public void initData(Uzytkownik u) {
-        this.uzytkownik = u;
-    }
-
-    private Uzytkownik uzytkownik;
 
     public void initUzytkownik(Uzytkownik u) {
+        System.out.println("ListaBiletController - inicjalizacja użytkownika: " +
+                (u != null ? u.getLogin() + " (ID: " + u.getId() + ")" : "NULL"));
         this.uzytkownik = u;
     }
-
-    @FXML private Button powrotBtn;
-
-    @FXML
-    private void powrot() {
-        SceneUtil.otworzPanel("/pl/koncerty/gui/uzytkownik_panel.fxml", "Panel użytkownika", powrotBtn);
-    }
-
-
-
-
 }

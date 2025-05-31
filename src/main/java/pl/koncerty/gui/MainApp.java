@@ -9,9 +9,10 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("System sprzedaży biletów");
+        scene.getStylesheets().add(getClass().getResource("/pl/koncerty/style/style.css").toExternalForm());
+        stage.setTitle("System sprzedaży biletów SonicEvents");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

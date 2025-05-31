@@ -4,35 +4,51 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.koncerty.gui.ShowTicketController"
-            prefHeight="400.0" prefWidth="600.0">
-    <HBox spacing="10" layoutX="10" layoutY="10">
-        <children>
-            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot"
-                    style="-fx-font-weight: bold; -fx-background-color: #ececec;" />
-        </children>
-    </HBox>
-    <children>
+            styleClass="root">
 
-        <TableView fx:id="biletTable" layoutX="25.0" layoutY="25.0" prefHeight="350.0" prefWidth="550.0">
-            <columns>
-                <TableColumn fx:id="koncertCol" text="Wykonawca" prefWidth="150"/>
-                <TableColumn fx:id="miejsceCol" text="Miejsce" prefWidth="100"/>
-                <TableColumn fx:id="dataKoncertuCol" text="Data koncertu" prefWidth="150"/>
-                <TableColumn fx:id="dataZakupuCol" text="Data zakupu" prefWidth="150"/>
-            </columns>
-        </TableView>
-        <Button text="Zwróć wybrany bilet" onAction="#zwrocBilet" layoutX="400" layoutY="380"/>
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Button fx:id="powrotBtn" text="← Powrót" onAction="#powrot" styleClass="button-navigation"/>
+        </HBox>
+    </top>
 
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="30" bottom="20" left="30"/>
+            </padding>
 
-    </children>
+            <Label text="Moje Bilety" styleClass="title-label"/>
 
-    <Button text="Wyloguj się"
-            fx:id="wylogujBtn"
-            onMouseClicked="#wyloguj"
-            layoutX="490" layoutY="10"
-            style="-fx-text-fill: #007aff; -fx-underline: true; -fx-font-weight: bold;" />
+            <TableView fx:id="biletTable" VBox.vgrow="ALWAYS" maxHeight="400" styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="koncertCol" text="Wykonawca" prefWidth="150"/>
+                    <TableColumn fx:id="miejsceCol" text="Miejsce" prefWidth="120"/>
+                    <TableColumn fx:id="dataKoncertuCol" text="Data koncertu" prefWidth="150"/>
+                    <TableColumn fx:id="dataZakupuCol" text="Data zakupu" prefWidth="150"/>
+                </columns>
+            </TableView>
 
-</AnchorPane>
+            <HBox alignment="CENTER" spacing="15">
+                <Button text="Zwróć bilet" styleClass="return-button" onAction="#zwrocBilet"
+                        prefHeight="40" prefWidth="150"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="15"/>
+            </padding>
+            <Label text="Wyloguj się" styleClass="logout-label" onMouseClicked="#wyloguj"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
