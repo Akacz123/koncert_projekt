@@ -104,18 +104,17 @@ public class ListaBiletController implements Initializable {
 
             System.out.println("Kupiono bilet dla użytkownika: " + uzytkownik.getLogin() +
                     " na koncert: " + wybrany.getWykonawca());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION); // Przeniesione do try, aby wyświetlić tylko po sukcesie
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sukces");
             alert.setHeaderText(null);
-            alert.setContentText("Bilet kupiony pomyślnie! Numer biletu: " + bilet.getNumerBiletu()); // Wyświetl numer
+            alert.setContentText("Bilet kupiony pomyślnie! Numer biletu: " + bilet.getNumerBiletu());
             alert.showAndWait();
 
         } catch (Exception e) {
             System.out.println("BŁĄD podczas kupowania biletu: " + e.getMessage());
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Błąd podczas kupowania biletu: " + e.getMessage() + ". Sprawdź logi aplikacji."); // Bardziej ogólny komunikat
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Błąd podczas kupowania biletu: " + e.getMessage() + ". Sprawdź logi aplikacji.");
             alert.show();
-            // return; // Usunięto return, aby alert się wyświetlił
         }
     }
 

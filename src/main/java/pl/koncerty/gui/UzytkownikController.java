@@ -87,24 +87,8 @@ public class UzytkownikController implements Initializable {
     }
 
     @FXML
-    private void wyloguj(MouseEvent event) { // Dodaj parametr MouseEvent
-        System.out.println("UzytkownikController - wylogowywanie użytkownika (przez Label)");
+    private void wyloguj(MouseEvent event) {
         Node source = (Node) event.getSource();
-        if (source != null) {
-            System.out.println("Wyloguj Label (source) is not null.");
-            if (source.getScene() != null) {
-                System.out.println("Wyloguj Label (source) has a scene: " + source.getScene());
-                if (source.getScene().getWindow() != null) {
-                    System.out.println("Wyloguj Label (source)'s scene has a window: " + source.getScene().getWindow());
-                } else {
-                    System.out.println("Wyloguj Label (source)'s scene DOES NOT have a window (but has a scene).");
-                }
-            } else {
-                System.out.println("Wyloguj Label (source) DOES NOT have a scene. This is the problem for logout.");
-            }
-        } else {
-            System.out.println("Wyloguj Label (source) IS null. This is also a problem for logout.");
-        }
         SceneUtil.wyloguj(source);
     }
 }

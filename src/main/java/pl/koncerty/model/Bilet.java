@@ -9,7 +9,7 @@ public class Bilet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Zmienione z int na Long
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "uzytkownik_id")
@@ -34,7 +34,6 @@ public class Bilet {
 
     public Bilet() {}
 
-    // Gettery i settery
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

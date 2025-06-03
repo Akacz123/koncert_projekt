@@ -61,27 +61,6 @@ public class ZarzadzanieKoncertamiController implements Initializable {
     }
 
     @FXML
-    private void dodajKoncert() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx = session.beginTransaction();
-
-            String wykonawca = wykonawcaField.getText();
-            LocalDate data = dataPicker.getValue();
-            String miejsce = miejsceField.getText();
-            double cena = Double.parseDouble(cenaField.getText());
-
-            Koncert nowyKoncert = new Koncert(wykonawca, data, miejsce, cena);
-            session.save(nowyKoncert);
-            tx.commit();
-
-            zaladujKoncerty();
-            clearFields();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private void usunKoncert() {
         Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
         if (wybrany == null) return;
@@ -126,7 +105,6 @@ public class ZarzadzanieKoncertamiController implements Initializable {
         cenaField.clear();
     }
 
-    @FXML private Button wylogujBtn;
     @FXML
     private void wyloguj(MouseEvent event) {
         Node source = (Node) event.getSource();
