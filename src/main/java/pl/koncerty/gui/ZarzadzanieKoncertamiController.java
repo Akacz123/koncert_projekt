@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import pl.koncerty.exceptions.NieprawidlowaCenaException;
 import pl.koncerty.util.HibernateUtil;
 import pl.koncerty.model.Koncert;
 import pl.koncerty.util.SceneUtil;
@@ -80,10 +81,20 @@ public class ZarzadzanieKoncertamiController implements Initializable {
     private void zapiszZmiany() {
         Koncert wybrany = koncertTableView.getSelectionModel().getSelectedItem();
         if (wybrany == null) return;
-
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-
+            double cena = Double.parseDouble(cenaField.getText());
+            if (cena <= 0) {
+                throw new NieprawidlowaCenaException("Cena musi być większa niż 0.");
+            }
+            if (wykonawcaField.getText().isEmpty() || dataPicker.getValue() == null || miejsceField.getText().isEmpty() || cenaField.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Bląd!");
+                alert.setHeaderText(null);
+                alert.setContentText("Uzupelnij wszystkie pola!");
+                alert.show();
+                return;
+            }
             wybrany.setWykonawca(wykonawcaField.getText());
             wybrany.setData(dataPicker.getValue());
             wybrany.setMiejsce(miejsceField.getText());
@@ -91,12 +102,30 @@ public class ZarzadzanieKoncertamiController implements Initializable {
 
             session.update(wybrany);
             tx.commit();
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Bląd!");
+            alert.setHeaderText(null);
+            alert.setContentText("Cena musi być liczbą!");
+            alert.show();
+        } catch (NieprawidlowaCenaException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Bląd!");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage());
+            alert.show();
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Bląd!");
+            alert.setHeaderText(null);
+            alert.setContentText("Bląd edytowania koncertu "+e.getMessage());
+            alert.show();
             e.printStackTrace();
         }
 
         koncertTableView.refresh();
     }
+
 
     private void clearFields() {
         wykonawcaField.clear();
